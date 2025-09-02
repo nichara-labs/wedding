@@ -65,3 +65,13 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Notify Relationship Manager
+        env:
+          author: ${{github.event.head_commit.author.name}}
+          message: ${{github.event.head_commit.message}}
+          BOT_TOKEN: ${{secrets.BOT_TOKEN}}
+          CHAT_ID: ${{secrets.CHAT_ID}}
+        run: |
+          curl -X POST --data-urlencode "chat_id=$CHAT_ID" -d "parse_mode=Markdown" --data-urlencode "text=*chanelandnicholas.com*
+          New commit by *$author*" "https://api.telegram.org/bot$BOT_TOKEN/sendMessage"
+          curl -X POST --data-urlencode "chat_id=$CHAT_ID" --data-urlencode "text=$message" "https://api.telegram.org/bot$BOT_TOKEN/sendMessage"
