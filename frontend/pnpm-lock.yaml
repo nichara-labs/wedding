@@ -11,6 +11,9 @@ importers:
       '@mantine/core':
         specifier: ^8.2.1
         version: 8.2.8(@mantine/hooks@8.2.8(react@19.1.0))(@types/react@19.1.12)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@mantine/hooks':
+        specifier: ^8.2.8
+        version: 8.2.8(react@19.1.0)
       '@mantine/notifications':
         specifier: ^8.2.1
         version: 8.2.8(@mantine/core@8.2.8(@mantine/hooks@8.2.8(react@19.1.0))(@types/react@19.1.12)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@mantine/hooks@8.2.8(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
