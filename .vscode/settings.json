@@ -1,0 +1,19 @@
+{
+	// Common
+	"[opentofu]": {
+		"editor.defaultFormatter": "opentofu.vscode-opentofu"
+	},
+	"explorer.autoRevealExclude": {
+		"**/node_modules": true,
+		"**/bower_components": true,
+		"**/.devenv": true
+	},
+
+	// Frontend
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	}
+}
