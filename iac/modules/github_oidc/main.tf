@@ -24,10 +24,6 @@ data "aws_iam_policy_document" "github_oidc_assume_role" {
     for_each = [
       # For pushes to the target branches
       [for b in var.branches : "repo:${var.owner}/${var.repo}:ref:refs/heads/${b}"],
-
-      # Unfortunately, we can't scope the head/base branches allowed, as AWS doesn't support  the base_ref claim.
-      # Subject claims that can be verified by AWS IAM: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#condition-keys-wif
-      ["repo:${var.owner}/${var.repo}:pull_request"]
     ]
 
     content {

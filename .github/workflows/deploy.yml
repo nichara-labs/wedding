@@ -37,6 +37,8 @@ jobs:
 
       - name: Setup infrastructure
         id: tofu-setup
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
         run: |
           cd iac/
           tofu init -reconfigure -lockfile=readonly
