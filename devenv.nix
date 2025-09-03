@@ -32,7 +32,43 @@
     if ! aws sts get-caller-identity >/dev/null 2>&1; then
       aws sso login
     fi
+    if [[ -z "$GITHUB_ACTIONS" ]] && ! gh auth status >/dev/null 2>&1; then
+      gh auth login
+    fi
   '';
+
+  scripts = {
+    tf.exec =
+      let
+        mkScript =
+          let
+            name = "script";
+          in
+          cmd:
+          ''${
+            pkgs.writeShellApplication {
+              inherit name;
+              text = ''
+                ${cmd}
+              '';
+            }
+          }/bin/${name} "$@"'';
+      in
+      mkScript ''
+        set -euo pipefail
+        cd "$DEVENV_ROOT/iac"
+
+        cmd="$1"
+
+        s3_state_bucket="$(gh variable get DEV_S3_STATE_BUCKET)"
+        tofu_args=(
+          -var "s3_state_bucket=''${s3_state_bucket}"
+        )
+
+        tofu init -reconfigure "''${tofu_args[@]}"
+        tofu "$cmd" "''${tofu_args[@]}" "''${@:2}"
+      '';
+  };
 
   git-hooks.hooks =
     let

@@ -29,7 +29,9 @@ Pushing to `main` will trigger the deployment pipeline automatically.
 
 ## Deploying Infrastructure
 
-Ensure you have the necessary AWS CLI configuration for the `dev` account.
+[Ensure that the Github OIDC provider has been configured in AWS for the `dev` account.][oidc]
+
+Ensure you have the necessary AWS CLI configuration for the `dev` account:
 
 <details>
 <summary>AWS CLI configuration</summary>
@@ -51,10 +53,16 @@ sso_registration_scopes = sso:account:access
 
 </details>
 
+> [!IMPORTANT]
+> If this is the first time you are deploying the infrastructure, run `./bootstrap.sh`.
+
+Apply configuration:
+
 ```sh
-tf apply dev
+tf apply
 ```
 
 [Nix]: https://nixos.org/download.html
 [devenv]: https://devenv.sh/
 [direnv]: https://direnv.net/
+[oidc]: https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws#adding-the-identity-provider-to-aws
