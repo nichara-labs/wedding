@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket       = var.s3_state_bucket
-    key          = "${var.repository_name}/terraform.tfstate"
+    key          = "opentofu.tfstate"
     region       = "ap-southeast-1"
     use_lockfile = true
   }
