@@ -29,9 +29,11 @@ Pushing to `main` will trigger the deployment pipeline automatically.
 
 ## Deploying Infrastructure
 
-[Ensure that the Github OIDC provider has been configured in AWS for the `dev` account.][oidc]
+Requirements:
 
-Ensure you have the necessary AWS CLI configuration for the `dev` account:
+- [The Github OIDC provider has been configured in AWS for the `dev` account.][oidc]
+- You have the necessary AWS CLI configuration for the `dev` account
+- A fine-grained personal access token named `TOKEN` with repository variables permission has been configured as a GitHub secret
 
 <details>
 <summary>AWS CLI configuration</summary>
