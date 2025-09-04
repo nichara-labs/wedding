@@ -1,1 +1,1 @@
-repository_name = "wedding"
+project_name = "wedding"

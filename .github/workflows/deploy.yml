@@ -22,6 +22,7 @@ jobs:
       TF_VAR_s3_state_bucket: ${{ vars.DEV_S3_STATE_BUCKET }}
       TF_IN_AUTOMATION: true
       TF_INPUT: false
+      TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.tofu.d/plugin-cache
 
     steps:
       - uses: actions/checkout@v4
@@ -29,6 +30,16 @@ jobs:
       - uses: opentofu/setup-opentofu@v1
         with:
           tofu_wrapper: false
+
+      - name: Restore provider cache
+        id: cache-providers
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.TF_PLUGIN_CACHE_DIR }}
+          # Rebuild cache whenever provider versions in the lockfile change
+          key: ${{ runner.os }}-tofu-providers-${{ github.ref_name }}-${{ hashFiles('**/.terraform.lock.hcl') }}
+          restore-keys: |
+            ${{ runner.os }}-tofu-providers-
 
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v4

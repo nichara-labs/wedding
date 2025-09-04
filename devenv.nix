@@ -8,6 +8,7 @@
 
   env.TF_CMD = "tofu";
   env.AWS_PROFILE = "dev";
+  env.TF_PLUGIN_CACHE_DIR = "${builtins.getEnv "HOME"}/.tofu.d/plugin-cache";
 
   # https://devenv.sh/packages/
   packages = with pkgs; [
@@ -29,6 +30,9 @@
   };
 
   enterShell = ''
+    export TF_PLUGIN_CACHE_DIR=~/.tofu.d/plugin-cache
+    mkdir -p "$TF_PLUGIN_CACHE_DIR"
+
     if ! aws sts get-caller-identity >/dev/null 2>&1; then
       aws sso login
     fi

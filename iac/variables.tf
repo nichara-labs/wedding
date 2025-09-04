@@ -1,11 +1,5 @@
-variable "env" {
-  description = "The environment to deploy into. Used as a prefix for Github Actions variables."
-  type        = string
-  default     = "dev"
-}
-
-variable "repository_name" {
-  description = "The name of the GitHub repository."
+variable "project_name" {
+  description = "The name of the project. Used for tagging and naming resources."
   type        = string
 }
 

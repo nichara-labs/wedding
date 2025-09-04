@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket       = var.s3_state_bucket
-    key          = "opentofu.tfstate"
+    key          = "${var.project_name}/opentofu.tfstate"
     region       = "ap-southeast-1"
     use_lockfile = true
   }
@@ -9,10 +9,6 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 6.5"
-    }
-    github = {
-      source  = "integrations/github"
-      version = "~> 6.0"
     }
   }
   required_version = "~> 1.10"
@@ -22,16 +18,7 @@ provider "aws" {
   region = "ap-southeast-1"
   default_tags {
     tags = {
-      Project = "infra"
+      Project = var.project_name
     }
   }
-}
-
-provider "github" {
-  owner = "nichara-labs"
-}
-
-module "s3_state_bucket" {
-  source        = "./modules/s3_state"
-  bucket_prefix = "${var.repository_name}-state-"
 }
