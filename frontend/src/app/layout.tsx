@@ -1,23 +1,18 @@
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import AppShellLayout from "../components/AppShellLayout";
+
 import "./globals.css";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 
-const geistSans = Geist({
-	variable: "--font-geist-sans",
+import { Noto_Serif_Display } from "next/font/google";
+
+const notoSerif = Noto_Serif_Display({
 	subsets: ["latin"],
+	weight: ["400", "700"], // regular & bold
 });
 
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
+export const metadata = {
 	title: "Chanel and Nicholas's Wedding",
 	description: "Please join us in celebrating our special day - Jan 10, 2026",
 };
@@ -29,10 +24,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${geistSans.variable} ${geistMono.variable}`}>
+			<body className={notoSerif.className}>
 				<MantineProvider>
 					<Notifications />
-					<AppShellLayout>{children}</AppShellLayout>
+					{children}
 				</MantineProvider>
 			</body>
 		</html>
