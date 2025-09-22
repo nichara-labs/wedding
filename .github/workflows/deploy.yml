@@ -30,7 +30,7 @@ jobs:
       # These are named exactly after the opentofu outputs
       function_url: ${{ steps.setup-infra.outputs.function_url }}
     env:
-      TF_VAR_s3_state_bucket: ${{ vars.DEV_S3_STATE_BUCKET }}
+      TF_VAR_s3_state_bucket: ${{ vars.PROD_S3_STATE_BUCKET }}
       TF_IN_AUTOMATION: true
       TF_INPUT: false
       TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.tofu.d/plugin-cache
