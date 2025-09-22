@@ -67,9 +67,8 @@ jobs:
           tofu init -reconfigure -lockfile=readonly
           tofu apply \
             -auto-approve \
-            -var-file="env-${{ github.ref_name }}.tfvars" \
             -target 'module.ecr'
-          tofu output -json -var-file="env-${{ github.ref_name }}.tfvars" | \
+          tofu output -json | \
             jq -r 'to_entries[] | "\(.key)=\(.value.value|tostring)"' >> "$GITHUB_OUTPUT"
 
       - name: Set up Docker Buildx
