@@ -9,6 +9,12 @@
 		"**/.devenv": true
 	},
 
+	// Backend
+	"python.defaultInterpreterPath": ".devenv/state/venv/bin/python",
+	"[python]": {
+		"editor.defaultFormatter": "charliermarsh.ruff"
+	},
+
 	// Frontend
 	"[typescriptreact]": {
 		"editor.defaultFormatter": "biomejs.biome"

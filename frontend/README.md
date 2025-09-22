@@ -1,15 +1,14 @@
 # 💒 Wedding RSVP Website
 
-A beautiful and responsive wedding RSVP website built with Next.js and Mantine UI components.
+A beautiful and responsive wedding RSVP website rebuilt with Next.js 15, Tailwind CSS, and shadcn/ui primitives.
 
 ## ✨ Features
 
 - **Elegant Design**: Beautiful gradient background and card-based layout
 - **Responsive Form**: Works perfectly on desktop and mobile devices
 - **Form Validation**: Client-side validation for required fields and email format
-- **Real-time Notifications**: Success and error notifications using Mantine notifications
+- **Real-time Notifications**: Delightful toasts for success and error states with shadcn/ui
 - **API Integration**: Backend API endpoint for handling RSVP submissions
-- **Thank You Page**: Dedicated page shown after successful submission
 
 ## 📋 RSVP Form Fields
 
@@ -17,8 +16,7 @@ The form includes the following fields:
 
 - **Full Name** (Required): Guest's complete name
 - **Email Address** (Required): Valid email address for confirmation
-- **Wedding Side** (Required): Bride's side or Groom's side
-- **Additional Notes** (Optional): Space for:
+- **Goodwill Message** (Optional): Space for:
   - Food allergies and dietary restrictions
   - Accessibility needs
   - Well wishes for the couple
@@ -56,10 +54,10 @@ The form includes the following fields:
 ## 🛠 Technology Stack
 
 - **Frontend Framework**: Next.js 15.5.2 with Turbopack
-- **UI Components**: Mantine 8.2.1
+- **UI Components**: shadcn/ui built on Radix primitives
 - **Icons**: Tabler Icons React 3.34.1
 - **Language**: TypeScript
-- **Styling**: CSS-in-JS with Mantine's styling system
+- **Styling**: Tailwind CSS with design tokens tuned for the wedding palette
 
 ## 📁 Project Structure
 
@@ -67,62 +65,34 @@ The form includes the following fields:
 frontend/
 ├── src/
 │   ├── app/
-│   │   ├── api/rsvp/route.ts     # Backend API endpoint
-│   │   ├── thank-you/page.tsx    # Thank you page
-│   │   ├── layout.tsx            # Root layout with Mantine providers
-│   │   └── page.tsx              # Main page with RSVP form
+│   │   ├── layout.tsx            # Root layout with Tailwind + font setup
+│   │   └── page.tsx              # Main page with slideshow and modal form
 │   └── components/
-│       └── RSVPForm.tsx          # Main RSVP form component
+│       ├── Slideshow.tsx         # Hero slideshow + RSVP modal
+│       ├── RSVPForm.tsx          # Shadcn-based RSVP form
+│       ├── slides.tsx            # Animated slide content
+│       └── ui/                   # Reusable shadcn/ui primitives
 ├── public/                       # Static assets
+├── tailwind.config.ts            # Tailwind theme tokens
+├── postcss.config.mjs            # PostCSS pipeline
 └── package.json                  # Dependencies and scripts
 ```
 
 ## 🔧 Backend Integration
 
-The project includes a placeholder API endpoint at `/api/rsvp` that:
-
-- Validates form data (required fields, email format)
-- Logs submissions to console
-- Returns success/error responses
-- Includes TODO comments for database integration
-
-### Customizing the Backend
-
-To integrate with your preferred backend solution, update the `/api/rsvp/route.ts` file to:
-
-1. **Database Integration**: Save submissions to your database (PostgreSQL, MongoDB, etc.)
-2. **Email Notifications**: Send confirmation emails to guests and notifications to the wedding couple
-3. **Analytics**: Track RSVP statistics and guest preferences
-4. **External Services**: Integrate with wedding planning tools or CRM systems
-
-Example database integration:
-
-```typescript
-// Add to your API route
-import { db } from "@/lib/database";
-
-const rsvp = await db.rsvp.create({
-  data: {
-    fullName,
-    email,
-    side,
-    notes,
-    submittedAt: new Date(),
-  },
-});
-```
+The front-end posts RSVP submissions to the URL defined in `NEXT_PUBLIC_RSVP_API_URL`. In this repository the infrastructure stack provisions an AWS API Gateway + Lambda handler that forwards records into DynamoDB and emails guests through SES. Update the environment variable (in `.env.local` for development or your hosting provider's dashboard) to point at the deployed endpoint.
 
 ## 🎨 Customization
 
 ### Styling
 
-- Modify colors in the gradient backgrounds and button styles
-- Update the Mantine theme in `layout.tsx`
-- Customize form field styling in `RSVPForm.tsx`
+- Tweak gradient colours and component tokens in `src/app/globals.css`
+- Adjust shared utility classes in `tailwind.config.ts`
+- Refine form styling directly in `RSVPForm.tsx`
 
 ### Content
 
-- Update wedding contact email in form and thank you page
+- Update wedding contact information in the form copy
 - Modify form validation messages
 - Customize success/error notification text
 - Add wedding date, venue, or other details
@@ -130,7 +100,7 @@ const rsvp = await db.rsvp.create({
 ### Form Fields
 
 - Add additional fields (e.g., guest count, meal preferences)
-- Modify existing field options (e.g., add more side options)
+- Modify existing field options (e.g., collect dietary preferences)
 - Update validation rules as needed
 
 ## 📱 Responsive Design

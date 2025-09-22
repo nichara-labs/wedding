@@ -10,15 +10,27 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 6.5"
     }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 5.8"
+    }
   }
   required_version = "~> 1.10"
 }
 
-provider "aws" {
-  region = "ap-southeast-1"
-  default_tags {
-    tags = {
-      Project = var.project_name
-    }
-  }
+
+module "ecr" {
+  source    = "./modules/ecr"
+  repo_name = "${var.project_name}/backend"
+}
+
+module "lambda" {
+  source          = "./modules/lambda"
+  function_name   = var.project_name
+  image_uri       = var.image_uri
+  allowed_origins = var.allowed_origins
+  managed_policies = [
+    "arn:aws:iam::aws:policy/AmazonSESFullAccess",
+    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess_v2"
+  ]
 }

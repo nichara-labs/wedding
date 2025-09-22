@@ -1,15 +1,12 @@
-import { MantineProvider } from "@mantine/core";
-import { Notifications } from "@mantine/notifications";
-
 import "./globals.css";
-import "@mantine/core/styles.css";
-import "@mantine/notifications/styles.css";
 
 import { Noto_Serif_Display } from "next/font/google";
 
+import { cn } from "@/lib/utils";
+
 const notoSerif = Noto_Serif_Display({
 	subsets: ["latin"],
-	weight: ["400", "700"], // regular & bold
+	weight: ["400", "700"],
 });
 
 export const metadata = {
@@ -23,12 +20,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={notoSerif.className}>
-				<MantineProvider>
-					<Notifications />
-					{children}
-				</MantineProvider>
+		<html lang="en" suppressHydrationWarning>
+			<body
+				className={cn(
+					notoSerif.className,
+					"min-h-screen bg-background text-foreground antialiased",
+				)}
+			>
+				{children}
 			</body>
 		</html>
 	);

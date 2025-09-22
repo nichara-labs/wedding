@@ -7,7 +7,7 @@
   cachix.enable = false;
 
   env.TF_CMD = "tofu";
-  env.AWS_PROFILE = "dev";
+  env.AWS_PROFILE = "prod";
   env.TF_PLUGIN_CACHE_DIR = "${builtins.getEnv "HOME"}/.tofu.d/plugin-cache";
 
   # https://devenv.sh/packages/
@@ -15,11 +15,18 @@
     awscli2
     opentofu
     tflint
+    aws-sam-cli
   ];
 
   languages.python = {
     enable = true;
+    directory = "./backend";
     package = pkgs.python313;
+    uv.enable = true;
+    uv.sync.enable = true;
+
+    # Fixes uv sync not running when pyproject.toml changes
+    uv.sync.arguments = [ ]; # https://github.com/cachix/devenv/pull/2038
   };
 
   languages.javascript = {
@@ -63,14 +70,16 @@
         cd "$DEVENV_ROOT/iac"
 
         cmd="$1"
+        env="$2"
+        export AWS_PROFILE="$env"
 
-        s3_state_bucket="$(gh variable get DEV_S3_STATE_BUCKET)"
+        s3_state_bucket="$(gh variable get "''${env^^}"_S3_STATE_BUCKET)"
         tofu_args=(
           -var "s3_state_bucket=''${s3_state_bucket}"
         )
 
         tofu init -reconfigure "''${tofu_args[@]}"
-        tofu "$cmd" "''${tofu_args[@]}" "''${@:2}"
+        tofu "$cmd" "''${tofu_args[@]}" "''${@:3}"
       '';
   };
 
