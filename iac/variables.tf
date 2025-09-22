@@ -11,6 +11,7 @@ variable "s3_state_bucket" {
 variable "image_uri" {
   description = "The URI of the Docker image in ECR to use for the Lambda function."
   type        = string
+  default     = "placeholder"
 }
 
 variable "allowed_origins" {
