@@ -16,9 +16,8 @@ resource "aws_lambda_function" "main" {
 
   image_config {}
 
-  memory_size   = 256
-  timeout       = 10
-  architectures = ["arm64"]
+  memory_size = 256
+  timeout     = 10
 }
 
 resource "aws_lambda_function_url" "main" {
