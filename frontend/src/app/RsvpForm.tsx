@@ -11,6 +11,15 @@ import {
 import { API_BASE_URL } from "@/lib/constants";
 import { getFastapiErrorMessage } from "@/lib/utils";
 
+interface RsvpData {
+  email: string;
+  name: string;
+  isRelative: boolean;
+  side: "groom" | "bride";
+  isAttending: boolean;
+  notes: string;
+}
+
 export const RsvpForm = ({
   rsvpSectionRef,
   sectionId,
@@ -18,10 +27,12 @@ export const RsvpForm = ({
   rsvpSectionRef: React.RefObject<HTMLElement | null>;
   sectionId: string;
 }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RsvpData>({
     name: "",
     email: "",
     isRelative: false,
+    side: "groom",
+    isAttending: true,
     notes: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -49,6 +60,8 @@ export const RsvpForm = ({
             email: formData.email,
             name: formData.name,
             is_relative: formData.isRelative,
+            is_attending: formData.isAttending,
+            side: formData.side,
             notes: formData.notes,
           }),
         });
@@ -65,7 +78,14 @@ export const RsvpForm = ({
         setFormMessage(
           "Thank you! We received your RSVP and sent a confirmation email.",
         );
-        setFormData({ name: "", email: "", isRelative: false, notes: "" });
+        setFormData({
+          name: "",
+          email: "",
+          isRelative: false,
+          isAttending: true,
+          side: "groom",
+          notes: "",
+        });
       } catch (error) {
         console.log(error);
         setFormError(
@@ -83,6 +103,8 @@ export const RsvpForm = ({
       formData.name,
       formData.isRelative,
       formData.notes,
+      formData.isAttending,
+      formData.side,
     ],
   );
 
@@ -98,7 +120,7 @@ export const RsvpForm = ({
             <Send className="h-5 w-5" />
             <span>Join us</span>
           </div>
-          <CardTitle className="mt-2 text-3xl font-semibold sm:text-4xl">
+          <CardTitle className="mt-2 text-3xl font-semibold sm:text-4xl font-[allura]">
             RSVP & Well Wishes
           </CardTitle>
           <CardDescription>
@@ -118,7 +140,7 @@ export const RsvpForm = ({
                 className="text-xs font-semibold uppercase tracking-[0.3em] text-foreground/80"
                 htmlFor="name"
               >
-                Full Name
+                Full Name*
               </label>
               <input
                 id="name"
@@ -140,7 +162,7 @@ export const RsvpForm = ({
                 className="text-xs font-semibold uppercase tracking-[0.3em] text-foreground/80"
                 htmlFor="email"
               >
-                Email Address
+                Email Address*
               </label>
               <input
                 id="email"
@@ -157,6 +179,76 @@ export const RsvpForm = ({
                 }
                 className="h-11 w-full rounded-lg border border-border/60 bg-background px-4 text-sm text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/60"
               />
+            </div>
+            <div className="grid gap-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-foreground/80">
+                Celebrating with*
+              </p>
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3">
+                <Button
+                  type="button"
+                  variant={formData.side === "groom" ? "default" : "outline"}
+                  className="w-full sm:w-auto"
+                  aria-pressed={formData.side === "groom"}
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      side: "groom",
+                    }))
+                  }
+                >
+                  Groom's Side
+                </Button>
+                <Button
+                  type="button"
+                  variant={formData.side === "bride" ? "default" : "outline"}
+                  className="w-full sm:w-auto"
+                  aria-pressed={formData.side === "bride"}
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      side: "bride",
+                    }))
+                  }
+                >
+                  Bride's Side
+                </Button>
+              </div>
+            </div>
+            <div className="grid gap-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-foreground/80">
+                Attendance*
+              </p>
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3">
+                <Button
+                  type="button"
+                  variant={formData.isAttending ? "default" : "outline"}
+                  className="w-full sm:w-auto"
+                  aria-pressed={formData.isAttending}
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      isAttending: true,
+                    }))
+                  }
+                >
+                  Attending
+                </Button>
+                <Button
+                  type="button"
+                  variant={!formData.isAttending ? "default" : "outline"}
+                  className="w-full sm:w-auto"
+                  aria-pressed={!formData.isAttending}
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      isAttending: false,
+                    }))
+                  }
+                >
+                  Can't Make It
+                </Button>
+              </div>
             </div>
             <div className="grid gap-2">
               <label

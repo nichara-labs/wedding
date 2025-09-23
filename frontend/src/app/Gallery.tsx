@@ -1,4 +1,7 @@
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const galleryImages = [
@@ -57,6 +60,17 @@ export const Gallery = ({ sectionId }: { sectionId: string }) => (
             <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
           </div>
         ))}
+      </div>
+      <div className="mt-8 flex justify-center">
+        <Link
+          href="https://immich.nicholaslyz.com/s/chanelandnicholas"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(buttonVariants({ size: "lg" }))}
+        >
+          See more photos
+          <ChevronRight />
+        </Link>
       </div>
     </div>
   </section>

@@ -31,6 +31,8 @@ def submit_rsvp(payload: RSVPRequest) -> RSVPResponse:
                 is_relative=payload.is_relative,
                 notes=payload.notes,
                 created_at=datetime.now(UTC),
+                is_attending=payload.is_attending,
+                side=payload.side,
             ).model_dump(mode="json")
         )
     except Exception as e:
@@ -56,16 +58,44 @@ def submit_rsvp(payload: RSVPRequest) -> RSVPResponse:
 
 def _send_email(payload: RSVPRequest) -> None:
     client = get_ses_client(region=REGION)
+    subject = "Thank you for your RSVP!"
+    base_email_kwargs = {
+        "FromEmailAddress": f"Chanel & Nicholas <{SES_SENDER_EMAIL}>",
+        "Destination": {
+            "ToAddresses": [payload.email],
+            "BccAddresses": [SES_SENDER_EMAIL],
+        },
+    }
+
+    if not payload.is_attending:
+        text_body = (
+            f"Hi {payload.name},\n\n"
+            "Thank you for letting us know you won't be able to join us. "
+            "We're grateful you took the time to reply and will be thinking of you.\n\n"
+            "With love,\nChanel & Nicholas"
+        )
+        client.send_email(
+            Content={
+                "Simple": {
+                    "Subject": {"Data": subject},
+                    "Body": {"Text": {"Data": text_body}},
+                }
+            },
+            **base_email_kwargs,
+        )
+        return
+
     text_body = (
         f"Hi {payload.name},\n\n"
         "Thank you for your RSVP. We can't wait to celebrate with you!\n\n"
         "With love,\nChanel & Nicholas"
     )
     html_body = EMAIL_HTML.read_text().format(name=payload.name)
+
     client.send_email(
         Content={
             "Simple": {
-                "Subject": {"Data": "Thank you for your RSVP!"},
+                "Subject": {"Data": subject},
                 "Body": {
                     "Text": {"Data": text_body},
                     "Html": {"Data": html_body},
@@ -83,9 +113,5 @@ def _send_email(payload: RSVPRequest) -> None:
                 ],
             }
         },
-        FromEmailAddress=f"Chanel & Nicholas <{SES_SENDER_EMAIL}>",
-        Destination={
-            "ToAddresses": [payload.email],
-            "BccAddresses": [SES_SENDER_EMAIL],
-        },
+        **base_email_kwargs,
     )
