@@ -17,3 +17,9 @@ variable "allowed_origins" {
   description = "List of allowed origins for CORS configuration."
   type        = list(string)
 }
+
+variable "environment_variables" {
+  description = "A map of environment variables to set for the Lambda function."
+  type        = map(string)
+  default     = {}
+}

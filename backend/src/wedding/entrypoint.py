@@ -1,0 +1,18 @@
+from fastapi import FastAPI, HTTPException
+from fastapi.exceptions import RequestValidationError
+from starlette.middleware.cors import CORSMiddleware
+
+from wedding.handlers import http_exception_handler, validation_exception_handler
+from wedding.routes import rsvp
+
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.include_router(rsvp.router)
+app.exception_handler(HTTPException)(http_exception_handler)
+app.exception_handler(RequestValidationError)(validation_exception_handler)

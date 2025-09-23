@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   ...
 }:
 
@@ -46,26 +47,27 @@
     if [[ -z "$GITHUB_ACTIONS" ]] && ! gh auth status >/dev/null 2>&1; then
       gh auth login
     fi
+    . ${config.env.DEVENV_STATE}/venv/bin/activate
   '';
 
-  scripts = {
-    tf.exec =
-      let
-        mkScript =
-          let
-            name = "script";
-          in
-          cmd:
-          ''${
-            pkgs.writeShellApplication {
-              inherit name;
-              text = ''
-                ${cmd}
-              '';
-            }
-          }/bin/${name} "$@"'';
-      in
-      mkScript ''
+  scripts =
+    let
+      mkScript =
+        let
+          name = "script";
+        in
+        cmd:
+        ''${
+          pkgs.writeShellApplication {
+            inherit name;
+            text = ''
+              ${cmd}
+            '';
+          }
+        }/bin/${name} "$@"'';
+    in
+    {
+      tf.exec = mkScript ''
         set -euo pipefail
         cd "$DEVENV_ROOT/iac"
 
@@ -81,7 +83,25 @@
         tofu init -reconfigure "''${tofu_args[@]}"
         tofu "$cmd" "''${tofu_args[@]}" "''${@:3}"
       '';
-  };
+
+      up.exec = mkScript ''
+        trap 'kill 0' INT TERM EXIT
+
+        # Frontend
+        (
+          cd "$DEVENV_ROOT/frontend"
+          pnpm dev 2>&1 | sed $'s/^/\033[34m[frontend]\033[0m /'
+        ) &
+
+        # Backend
+        (
+          cd "$DEVENV_ROOT/backend"
+          fastapi dev 2>&1 | sed $'s/^/\033[32m[backend]\033[0m /'
+        ) &
+
+        wait
+      '';
+    };
 
   git-hooks.hooks =
     let

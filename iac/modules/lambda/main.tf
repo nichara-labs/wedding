@@ -13,6 +13,9 @@ resource "aws_lambda_function" "main" {
   role          = aws_iam_role.main.arn
   package_type  = "Image"
   image_uri     = var.image_uri
+  environment {
+    variables = var.environment_variables
+  }
 
   image_config {}
 

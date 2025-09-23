@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//ical.marudot.com//iCal Event Maker
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Asia/Shanghai
+LAST-MODIFIED:20240422T053450Z
+TZURL:https://www.tzurl.org/zoneinfo-outlook/Asia/Shanghai
+X-LIC-LOCATION:Asia/Singapore
+BEGIN:STANDARD
+TZNAME:CST
+TZOFFSETFROM:+0800
+TZOFFSETTO:+0800
+DTSTART:19700101T000000
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTAMP:20250923T025432Z
+UID:1758596053593-58842@ical.marudot.com
+DTSTART;TZID=Asia/Shanghai:20260110T113000
+DTEND;TZID=Asia/Shanghai:20260110T140000
+SUMMARY:Chanel & Nicholas' Wedding
+URL:https://chanelandnicholas.com/#timeline
+DESCRIPTION:11:30 AM – Cocktail Reception · Sip on signature drinks and mingle at The Ritz-Carlton ballroom foyer.\n\n12:20 PM – Guests to be Seated · Doors open and ushers will guide you to your tables for the luncheon.\n\n12:30 PM – Commencement of Lunch · A celebratory lunch begins\, followed by toasts\, stories\, and sweet surprises.\n\nhttps://chanelandnicholas.com/#timeline
+LOCATION:Junior Ballroom\, The Ritz-Carlton\, Millenia Singapore\, 7 Raffles Avenue\, Singapore 039799
+END:VEVENT
+END:VCALENDAR
