@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 
 import { Allura, Fira_Code, Geist, Lora } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 
 const geist = Geist({ variable: "--font-sans" });
 const lora = Lora({ variable: "--font-serif" });
@@ -29,9 +30,16 @@ export default function RootLayout({
         allura.variable,
       )}
     >
-      <body className="min-h-screen bg-background text-foreground antialiased">
-        {children}
-      </body>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <body className="min-h-screen bg-background text-foreground antialiased">
+          {children}
+        </body>
+      </ThemeProvider>
     </html>
   );
 }
