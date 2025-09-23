@@ -13,8 +13,3 @@ variable "image_uri" {
   type        = string
   default     = "placeholder"
 }
-
-variable "allowed_origins" {
-  description = "List of allowed origins for the lambda backend."
-  type        = list(string)
-}

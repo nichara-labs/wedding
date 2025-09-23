@@ -31,7 +31,7 @@ export const Gallery = ({ sectionId }: { sectionId: string }) => (
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-primary">
           Photo Montage
         </p>
-        <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+        <h2 className="mt-2 text-6xl font-semibold tracking-tight font-[allura]">
           Moments in Bloom
         </h2>
         <p className="mt-4 max-w-2xl text-sm text-muted-foreground sm:text-base">

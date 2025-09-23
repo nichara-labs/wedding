@@ -26,10 +26,9 @@ data "aws_ssm_parameter" "password" {
 }
 
 module "lambda" {
-  source          = "./modules/lambda"
-  function_name   = var.project_name
-  image_uri       = var.image_uri
-  allowed_origins = var.allowed_origins
+  source        = "./modules/lambda"
+  function_name = var.project_name
+  image_uri     = var.image_uri
   environment_variables = {
     PASSWORD = data.aws_ssm_parameter.password.value
 
