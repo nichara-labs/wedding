@@ -1,6 +1,7 @@
 import { CalendarDays, ChevronRight, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import HeroImage from "@/../public/hero.jpg";
 import { CalendarButton } from "@/components/CalendarButton";
 import { buttonVariants } from "@/components/ui/button";
 import { anchors } from "@/lib/constants";
@@ -74,7 +75,7 @@ export const Details = ({ sectionId }: { sectionId: string }) => (
       <div className="relative flex w-full max-w-md flex-1 justify-center">
         <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[2rem] border border-border/80 shadow-xl">
           <Image
-            src="/couple-photo.jpg"
+            src={HeroImage}
             alt="Chanel and Nicholas"
             fill
             className="object-cover"
