@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/correctness/useUniqueElementIds: section headers*/
 "use client";
 
 import "@/app/globals.css";

@@ -1,18 +1,20 @@
+import base64
 import logging
 from datetime import UTC, datetime
 
+import httpx
 from fastapi import APIRouter, HTTPException, status
 
 from wedding.constants import (
     EMAIL_HTML,
+    FE_API_KEY,
     GUEST_ICS,
-    REGION,
     RELATIVE_ICS,
-    SES_SENDER_EMAIL,
+    SENDER_EMAIL,
     TABLE_NAME,
 )
 from wedding.models import RsvpItem, RSVPRequest, RSVPResponse
-from wedding.util import get_dynamodb_table, get_ses_client
+from wedding.util import get_dynamodb_table
 
 _log = logging.getLogger(__name__)
 
@@ -39,7 +41,7 @@ def submit_rsvp(payload: RSVPRequest) -> RSVPResponse:
         _log.exception("Failed to persist RSVP to DynamoDB")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to record your RSVP. Please contact us directly at {SES_SENDER_EMAIL}.",
+            detail=f"Failed to record your RSVP. Please contact us directly at {SENDER_EMAIL}.",
         ) from e
 
     try:
@@ -48,7 +50,7 @@ def submit_rsvp(payload: RSVPRequest) -> RSVPResponse:
         _log.exception("Failed to send thank-you email")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"We received your RSVP, but failed to send a thank-you email. Please contact us directly at {SES_SENDER_EMAIL}.",
+            detail=f"We received your RSVP, but failed to send a thank-you email. Please contact us directly at {SENDER_EMAIL}.",
         ) from e
 
     return RSVPResponse(
@@ -57,61 +59,46 @@ def submit_rsvp(payload: RSVPRequest) -> RSVPResponse:
 
 
 def _send_email(payload: RSVPRequest) -> None:
-    client = get_ses_client(region=REGION)
-    subject = "Thank you for your RSVP!"
-    base_email_kwargs = {
-        "FromEmailAddress": f"Chanel & Nicholas <{SES_SENDER_EMAIL}>",
-        "Destination": {
-            "ToAddresses": [payload.email],
-            "BccAddresses": [SES_SENDER_EMAIL],
-        },
-    }
-
     if not payload.is_attending:
-        text_body = (
-            f"Hi {payload.name},\n\n"
-            "Thank you for letting us know you won't be able to join us. "
-            "We're grateful you took the time to reply and will be thinking of you.\n\n"
-            "With love,\nChanel & Nicholas"
-        )
-        client.send_email(
-            Content={
-                "Simple": {
-                    "Subject": {"Data": subject},
-                    "Body": {"Text": {"Data": text_body}},
-                }
+        kwargs = {
+            "text": (
+                f"Hi {payload.name},\n\n"
+                "Thank you for letting us know you won't be able to join us. "
+                "We're grateful you took the time to reply and will be thinking of you.\n\n"
+                "With love,\nChanel & Nicholas"
+            )
+        }
+    else:
+        kwargs = {
+            "text": (
+                f"Hi {payload.name},\n\n"
+                "Thank you for your RSVP. We can't wait to celebrate with you!\n\n"
+                "With love,\nChanel & Nicholas"
+            ),
+            "icalEvent": {
+                "content": GUEST_ICS.read_text()
+                if not payload.is_relative
+                else RELATIVE_ICS.read_text(),
+                "method": "REQUEST",
             },
-            **base_email_kwargs,
-        )
-        return
+            "html": EMAIL_HTML.read_text().format(name=payload.name),
+        }
 
-    text_body = (
-        f"Hi {payload.name},\n\n"
-        "Thank you for your RSVP. We can't wait to celebrate with you!\n\n"
-        "With love,\nChanel & Nicholas"
-    )
-    html_body = EMAIL_HTML.read_text().format(name=payload.name)
-
-    client.send_email(
-        Content={
-            "Simple": {
-                "Subject": {"Data": subject},
-                "Body": {
-                    "Text": {"Data": text_body},
-                    "Html": {"Data": html_body},
-                },
-                "Attachments": [
-                    {
-                        "FileName": "invitation.ics",
-                        "RawContent": (
-                            GUEST_ICS.read_text()
-                            if not payload.is_relative
-                            else RELATIVE_ICS.read_text()
-                        ),
-                        "ContentType": "text/calendar",
-                    }
-                ],
-            }
+    resp = httpx.post(
+        "https://api.forwardemail.net/v1/emails",
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Basic {base64.b64encode(f'{FE_API_KEY}:'.encode()).decode()}",
         },
-        **base_email_kwargs,
+        json={
+            "from": f"Chanel & Nicholas <{SENDER_EMAIL}>",
+            "to": payload.email,
+            "bcc": SENDER_EMAIL,
+            "subject": "Thank you for your RSVP!",
+            **kwargs,
+        },
     )
+    if resp.status_code != httpx.codes.OK:
+        msg = f"Failed to send email: {resp.status_code} {resp.text}"
+        _log.error(msg)
+        raise RuntimeError(msg)

@@ -25,16 +25,19 @@ data "aws_ssm_parameter" "password" {
   with_decryption = true
 }
 
+data "aws_ssm_parameter" "fe_api_key" {
+  name            = "/${var.project_name}/fe_api_key"
+  with_decryption = true
+}
+
 module "lambda" {
   source        = "./modules/lambda"
   function_name = var.project_name
   image_uri     = var.image_uri
   environment_variables = {
-    PASSWORD = data.aws_ssm_parameter.password.value
+    PASSWORD   = data.aws_ssm_parameter.password.value
+    FE_API_KEY = data.aws_ssm_parameter.fe_api_key.value
 
   }
-  managed_policies = [
-    "arn:aws:iam::aws:policy/AmazonSESFullAccess",
-    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess_v2"
-  ]
+  managed_policies = ["arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess_v2"]
 }

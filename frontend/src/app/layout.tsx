@@ -12,6 +12,7 @@ const allura = Allura({ variable: "--font-allura", weight: ["400"] });
 export const metadata = {
   title: "Chanel and Nicholas's Wedding",
   description: "Please join us in celebrating our special day - Jan 10, 2026",
+  robots: { index: false },
 };
 
 export default function RootLayout({
@@ -30,16 +31,16 @@ export default function RootLayout({
         allura.variable,
       )}
     >
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <body className="min-h-screen bg-background text-foreground antialiased">
+      <body className="min-h-screen bg-background text-foreground antialiased">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
