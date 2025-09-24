@@ -10,6 +10,7 @@ const firaCode = Fira_Code({ variable: "--font-mono" });
 const allura = Allura({ variable: "--font-allura", weight: ["400"] });
 
 export const metadata = {
+  metadataBase: new URL("https://chanelandnicholas.com"),
   title: "Chanel and Nicholas's Wedding",
   description: "Please join us in celebrating our special day - Jan 10, 2026",
   robots: { index: false },
