@@ -269,7 +269,7 @@ export const RsvpForm = ({
                   }))
                 }
                 className="w-full rounded-lg border border-border/60 bg-background px-4 py-3 text-sm text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/60"
-                placeholder="Share any dietary needs, song requests, or well wishes."
+                placeholder="Share any dietary needs, song requests, well wishes, or other guests you are bringing."
               />
             </div>
             <label className="flex items-center gap-3 rounded-lg border border-dashed border-border/60 bg-secondary/10 p-4 text-sm text-foreground">
