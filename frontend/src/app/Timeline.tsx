@@ -16,14 +16,14 @@ type TimelineItem = {
 
 const timelineItems: TimelineItem[] = [
   {
-    time: "10:30 AM",
+    time: "11:00 AM",
     title: "Tea Ceremony",
     description:
       "Share a quiet moment with us and our families as we begin the celebrations.",
     icon: Coffee,
   },
   {
-    time: "11:30 AM",
+    time: "12:00 PM",
     title: "Cocktail Reception",
     description:
       "Sip on signature drinks and mingle at The Ritz-Carlton ballroom foyer.",

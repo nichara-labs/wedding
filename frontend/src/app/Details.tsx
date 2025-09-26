@@ -37,8 +37,8 @@ export const Details = ({ sectionId }: { sectionId: string }) => (
             <div className="text-left">
               <p className="font-semibold">Saturday, 10 January 2026</p>
               <p className="text-sm text-muted-foreground">
-                Tea ceremony from 10:30 <br />
-                Cocktails from 11:30
+                Tea ceremony from 11:00 <br />
+                Cocktails from 12:00
               </p>
             </div>
             <ChevronRight className="ml-auto" />
