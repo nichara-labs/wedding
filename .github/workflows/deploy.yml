@@ -20,7 +20,7 @@ env:
 
 jobs:
   get-commit-metadata:
-    uses: extrange/actions/.github/workflows/commit-metadata.yml@v1.5
+    uses: extrange/actions/.github/workflows/commit-metadata.yml@50aef3bd5ba1808aa39b0a01f52fc44a326e409c # v1.6
 
   deploy-backend:
     runs-on: ubuntu-latest
@@ -36,21 +36,21 @@ jobs:
       TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.tofu.d/plugin-cache
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
 
       - name: Set up AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4
         with:
           aws-region: ap-southeast-1
           role-to-assume: ${{ env.ROLE_TO_ASSUME }}
 
-      - uses: opentofu/setup-opentofu@v1
+      - uses: opentofu/setup-opentofu@000eeb8522f0572907c393e8151076c205fdba1b # v1
         with:
           tofu_wrapper: false
 
       - name: Restore provider cache
         id: cache-providers
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ env.TF_PLUGIN_CACHE_DIR }}
           # Rebuild cache whenever provider versions in the lockfile change
@@ -72,7 +72,7 @@ jobs:
             jq -r 'to_entries[] | "\(.key)=\(.value.value|tostring)"' >> "$GITHUB_OUTPUT"
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349 # v3
+        uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -101,7 +101,7 @@ jobs:
         id: build
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6
         with:
           push: true
           target: deployment
@@ -132,21 +132,21 @@ jobs:
       run:
         working-directory: frontend
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
         with:
           package_json_file: frontend/package.json
           run_install: false
 
       - name: Install Node.js and load pnpm from cache
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version-file: frontend/package.json
           cache: "pnpm"
           cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Restore NextJS cache
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: frontend/.next/cache
           # Generate a new cache whenever packages or source files change.
@@ -163,7 +163,7 @@ jobs:
           pnpm build
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: ./frontend/out
 
@@ -177,7 +177,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
       - name: Notify Relationship Manager
         env:
           author: ${{github.event.head_commit.author.name}}
