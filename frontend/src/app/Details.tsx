@@ -25,8 +25,8 @@ export const Details = ({ sectionId }: { sectionId: string }) => (
           Chanel & Nicholas
         </h1>
         <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
-          Join us for an elegant luncheon celebration on Saturday, 10 January
-          2026 at The Ritz-Carlton, Millenia Singapore.
+          Join us for an elegant luncheon celebration on Saturday, 10 January at
+          The Ritz-Carlton, Millenia Singapore.
         </p>
         <div className="grid w-full gap-4 text-sm text-foreground sm:grid-cols-2 sm:text-base">
           <Link
@@ -35,9 +35,10 @@ export const Details = ({ sectionId }: { sectionId: string }) => (
           >
             <CalendarDays className="h-6 w-6 text-primary" />
             <div className="text-left">
-              <p className="font-semibold">Saturday, 10 January 2026</p>
+              <p className="font-semibold">10 January 2026</p>
               <p className="text-sm text-muted-foreground">
-                Tea ceremony (Family) from 11:00 <br />
+                Tea ceremony from 11:00
+                <br />
                 Registration from 12:00
               </p>
             </div>

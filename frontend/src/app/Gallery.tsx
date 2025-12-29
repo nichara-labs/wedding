@@ -38,8 +38,7 @@ export const Gallery = ({ sectionId }: { sectionId: string }) => (
           Moments in Bloom
         </h2>
         <p className="mt-4 max-w-2xl text-sm text-muted-foreground sm:text-base">
-          A glimpse into the memories that brought us here—captured in the heart
-          of Singapore and beyond.
+          A glimpse into the memories that brought us here.
         </p>
       </div>
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
