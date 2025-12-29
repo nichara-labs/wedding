@@ -1,7 +1,7 @@
 import { CalendarDays, ChevronRight, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import HeroImage from "@/../public/hero.jpg";
+import HeroImage from "@/../public/hero.jpeg";
 import { CalendarButton } from "@/components/CalendarButton";
 import { buttonVariants } from "@/components/ui/button";
 import { anchors } from "@/lib/constants";
@@ -37,8 +37,8 @@ export const Details = ({ sectionId }: { sectionId: string }) => (
             <div className="text-left">
               <p className="font-semibold">Saturday, 10 January 2026</p>
               <p className="text-sm text-muted-foreground">
-                Tea ceremony from 11:00 <br />
-                Cocktails from 12:00
+                Tea ceremony (Family) from 11:00 <br />
+                Registration from 12:00
               </p>
             </div>
             <ChevronRight className="ml-auto" />
@@ -51,24 +51,15 @@ export const Details = ({ sectionId }: { sectionId: string }) => (
           >
             <MapPin className="h-6 w-6 text-primary" />
             <div className="text-left">
-              <p className="font-semibold">The Ritz-Carlton, Millenia</p>
-              <p className="text-sm text-muted-foreground">
-                Marina Bay, Singapore
+              <p className="font-semibold">
+                The Ritz-Carlton, Millenia Singapore
               </p>
+              <p className="text-sm text-muted-foreground">Junior Ballroom</p>
             </div>
             <ChevronRight className="ml-auto" />
           </Link>
         </div>
         <div className="flex items-center gap-3">
-          <Link
-            href={`#${anchors.rsvp}`}
-            className={cn(
-              buttonVariants({ variant: "default", size: "lg" }),
-              "w-full text-center sm:w-auto",
-            )}
-          >
-            RSVP Now
-          </Link>
           <CalendarButton />
         </div>
       </div>

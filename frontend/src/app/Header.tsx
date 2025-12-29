@@ -34,12 +34,6 @@ export const Header = () => (
             </Link>
           ))}
         </nav>
-        <Link
-          className={cn(buttonVariants({ size: "sm" }))}
-          href={`#${anchors.rsvp}`}
-        >
-          RSVP Now
-        </Link>
       </div>
     </div>
   </header>

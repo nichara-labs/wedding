@@ -17,30 +17,28 @@ type TimelineItem = {
 const timelineItems: TimelineItem[] = [
   {
     time: "11:00 AM",
-    title: "Tea Ceremony",
+    title: "Tea Ceremony (Family), Read Room",
     description:
-      "Share a quiet moment with us and our families as we begin the celebrations.",
+      "A quiet moment shared with our families as we mark the beginning of a new chapter.",
     icon: Coffee,
   },
   {
     time: "12:00 PM",
-    title: "Cocktail Reception",
-    description:
-      "Sip on signature drinks and mingle at The Ritz-Carlton ballroom foyer.",
+    title: "Registration, Junior Ballroom",
+    description: "Register and mingle at the ballroom foyer.",
     icon: Martini,
   },
   {
-    time: "12:20 PM",
-    title: "Guests to be Seated",
-    description:
-      "Doors open and ushers will guide you to your tables for the luncheon.",
+    time: "12:15 PM",
+    title: "Doors open",
+    description: "Take your seats as we prepare to begin the luncheon.",
     icon: DoorOpen,
   },
   {
-    time: "12:30 PM",
+    time: "12:20 PM",
     title: "Commencement of Lunch",
     description:
-      "A celebratory lunch begins, followed by toasts, stories, and sweet surprises.",
+      "A celebratory lunch begins, accompanied by heartfelt toasts and moments that celebrate new beginnings.",
     icon: UtensilsCrossed,
   },
 ];
