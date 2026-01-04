@@ -3,6 +3,7 @@ import {
   Clock,
   Coffee,
   DoorOpen,
+  MapPin,
   Martini,
   UtensilsCrossed,
 } from "lucide-react";
@@ -11,6 +12,7 @@ type TimelineItem = {
   time: string;
   title: string;
   description: string;
+  location: "Junior Ballroom, Level 3" | "Read Room, Level 2";
   icon: LucideIcon;
 };
 
@@ -20,18 +22,21 @@ const timelineItems: TimelineItem[] = [
     title: "Tea Ceremony (Family)",
     description:
       "A quiet moment shared with our families as we mark the beginning of a new chapter.",
+    location: "Read Room, Level 2",
     icon: Coffee,
   },
   {
     time: "12:00 PM",
     title: "Registration",
     description: "Register and mingle at the ballroom foyer.",
+    location: "Junior Ballroom, Level 3",
     icon: Martini,
   },
   {
     time: "12:15 PM",
     title: "Doors open",
     description: "Take your seats as we prepare to begin the luncheon.",
+    location: "Junior Ballroom, Level 3",
     icon: DoorOpen,
   },
   {
@@ -39,6 +44,7 @@ const timelineItems: TimelineItem[] = [
     title: "Commencement of Lunch",
     description:
       "A celebratory lunch begins, accompanied by heartfelt toasts and moments that celebrate new beginnings.",
+    location: "Junior Ballroom, Level 3",
     icon: UtensilsCrossed,
   },
 ];
@@ -76,11 +82,13 @@ export const Timeline = ({ sectionId }: { sectionId: string }) => (
             <div className="flex min-w-0 flex-1 flex-col rounded-2xl border border-border/60 bg-card/70 p-6 shadow-sm hover:bg-secondary/50 transition">
               <div className="flex flex-col gap-1">
                 <p className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-primary">
-                  <Clock className="hidden h-3.5 w-3.5 sm:block" />
                   <span>{item.time}</span>
                 </p>
-                <h3 className="flex items-center gap-2 text-xl font-semibold sm:text-xl sm:my-3">
-                  <item.icon className="h-5 w-5 text-primary" />
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-5 w-5 text-primary" />
+                  <span>{item.location}</span>
+                </div>
+                <h3 className="flex items-center gap-2 text-xl font-semibold sm:text-xl ">
                   <span>{item.title}</span>
                 </h3>
               </div>

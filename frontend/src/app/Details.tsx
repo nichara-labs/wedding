@@ -3,17 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import HeroImage from "@/../public/hero.jpeg";
 import { CalendarButton } from "@/components/CalendarButton";
-import { buttonVariants } from "@/components/ui/button";
 import { anchors } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 
 export const Details = ({ sectionId }: { sectionId: string }) => (
   <section
     id={sectionId}
-    className="relative overflow-hidden bg-gradient-to-b from-background via-background to-secondary/20"
+    className="relative overflow-hidden bg-linear-to-b from-background via-background to-secondary/20"
   >
     <div
-      className="absolute inset-x-0 top-0 h-68 bg-[radial-gradient(circle,_rgba(90,76,219,0.15)_0%,_rgba(255,255,255,0)_65%)]"
+      className="absolute inset-x-0 top-0 h-68 bg-[radial-gradient(circle,rgba(90,76,219,0.15)_0%,rgba(255,255,255,0)_65%)]"
       aria-hidden
     />
     <div className="max-w-6xl mx-auto flex flex-col items-center gap-12 px-4 pb-16 pt-12 md:flex-row md:items-start md:gap-16 md:px-6 lg:pb-24 lg:pt-16 ">
@@ -55,7 +53,9 @@ export const Details = ({ sectionId }: { sectionId: string }) => (
               <p className="font-semibold">
                 The Ritz-Carlton, Millenia Singapore
               </p>
-              <p className="text-sm text-muted-foreground">Junior Ballroom</p>
+              <p className="text-sm text-muted-foreground">
+                Junior Ballroom, Level 3
+              </p>
             </div>
             <ChevronRight className="ml-auto" />
           </Link>
@@ -65,7 +65,7 @@ export const Details = ({ sectionId }: { sectionId: string }) => (
         </div>
       </div>
       <div className="relative flex w-full max-w-md flex-1 justify-center">
-        <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[2rem] border border-border/80 shadow-xl">
+        <div className="relative aspect-3/4 w-full overflow-hidden rounded-4xl border border-border/80 shadow-xl">
           <Image
             src={HeroImage}
             alt="Chanel and Nicholas"
