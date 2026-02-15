@@ -50,7 +50,7 @@ jobs:
 
       - name: Restore provider cache
         id: cache-providers
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5
         with:
           path: ${{ env.TF_PLUGIN_CACHE_DIR }}
           # Rebuild cache whenever provider versions in the lockfile change
@@ -146,7 +146,7 @@ jobs:
           cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Restore NextJS cache
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5
         with:
           path: frontend/.next/cache
           # Generate a new cache whenever packages or source files change.
