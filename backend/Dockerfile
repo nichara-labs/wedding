@@ -2,7 +2,7 @@ FROM python:3.13-slim AS base
 
 
 # Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest@sha256:94a23af2d50e97b87b522d3cea24aaf8a1faedec1344c952767434f69585cbf9 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:latest@sha256:4cac394b6b72846f8a85a7a0e577c6d61d4e17fe2ccee65d9451a8b3c9efb4ac /uv /uvx /bin/
 
 # Inherited by all stages and persisted in the final image
 ENV APP_DIR=/app
